@@ -75,7 +75,7 @@ Intermediate/*
 DerivedDataCache/*
 
 # mapy
-*.umap
+# *.umap cannot be included, because some maps don't weight much and are neccessery
 Saved/Logs/
 Saved/Autosaves
 Saved/Backup
@@ -84,3 +84,6 @@ Content/InfinityBladeIceLands/
 Content/InfinityBladeFireLands/
 Content/KiteDemo/
 Content/StarterContent/
+
+#it updates an icon of a project every time UE4 is closed
+Saved/Autoscreenshot.png
