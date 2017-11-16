@@ -12,7 +12,7 @@ void AMnShtrMainMenuGameMode::BeginPlay()
 void AMnShtrMainMenuGameMode::PlayButtonClick()
 {
 	ChangeMenuWidget(nullptr);
-	UGameplayStatics::OpenLevel(GetWorld(), "FirstPersonExampleMap");
+	UGameplayStatics::OpenLevel(GetWorld(), "FirstPersonExampleMap2");
 	APlayerController *playerController = GetWorld()->GetFirstPlayerController();
 	playerController->SetInputMode(FInputModeGameOnly());
 	playerController->bShowMouseCursor = false;

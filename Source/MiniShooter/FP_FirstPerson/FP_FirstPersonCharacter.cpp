@@ -1,6 +1,7 @@
 // Copyright 1998-2017 Epic Games, Inc. All Rights Reserved.
 
 #include "FP_FirstPersonCharacter.h"
+#include "MnShtrSaveGame.h"
 #include "FP_FirstPersonGameMode.h"
 #include "Animation/AnimInstance.h"
 #include "Components/CapsuleComponent.h"
@@ -18,8 +19,10 @@ DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 AFP_FirstPersonCharacter::AFP_FirstPersonCharacter()
 {
+	//MnShtr change:
 	if(GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, TEXT("FP_FIRST PERSON CHARACTER.CPP"));
+	//end of MnShtr change
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -91,7 +94,9 @@ void AFP_FirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AFP_FirstPersonCharacter::LookUpAtRate);
 
 	///////////////////////////////////////////////MnShtr input
-	PlayerInputComponent->BindAction("PauseMenu", IE_Pressed,this, &AFP_FirstPersonCharacter::AddPauseMenu);
+	PlayerInputComponent->BindAction("PauseMenu", IE_Pressed,this, &AFP_FirstPersonCharacter::ShowPauseMenu);
+	PlayerInputComponent->BindAction("Save", IE_Released, this, &AFP_FirstPersonCharacter::SaveGame);
+	PlayerInputComponent->BindAction("Load", IE_Released, this, &AFP_FirstPersonCharacter::LoadGame);
 }
 
 void AFP_FirstPersonCharacter::OnFire()
@@ -272,10 +277,31 @@ void AFP_FirstPersonCharacter::TryEnableTouchscreenMovement(UInputComponent* Pla
 	PlayerInputComponent->BindTouch(EInputEvent::IE_Repeat, this, &AFP_FirstPersonCharacter::TouchUpdate);	
 }
 
-void AFP_FirstPersonCharacter::AddPauseMenu()
+//MnShtr function
+void AFP_FirstPersonCharacter::ShowPauseMenu()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("FP_FIRST PERSON CHARACTER.CPP"));
 	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("ADD PAUSE MENU"));
 	AFP_FirstPersonGameMode* gameMode = Cast<AFP_FirstPersonGameMode>(GetWorld()->GetAuthGameMode());
 	gameMode->StartShowingStartingWidget();
+}
+
+//MnShtr function
+void AFP_FirstPersonCharacter::LoadGame()
+{
+	UMnShtrSaveGame* LoadGameInstance = Cast<UMnShtrSaveGame>(UGameplayStatics::CreateSaveGameObject(UMnShtrSaveGame::StaticClass()));
+	LoadGameInstance = Cast<UMnShtrSaveGame>(UGameplayStatics::LoadGameFromSlot(LoadGameInstance->SaveSlotName, LoadGameInstance->UserIndex));
+	this->SetActorLocation(LoadGameInstance->Location);
+	GetController()->SetControlRotation(LoadGameInstance->Rotation);
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Game loaded"));
+}
+
+//MnShtr function
+void AFP_FirstPersonCharacter::SaveGame()
+{
+	UMnShtrSaveGame* SaveGameInstance = Cast<UMnShtrSaveGame>(UGameplayStatics::CreateSaveGameObject(UMnShtrSaveGame::StaticClass()));
+	SaveGameInstance->Location = GetActorLocation();
+	SaveGameInstance->Rotation = GetController()->GetControlRotation();
+	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex);
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Game Saved"));	
 }
