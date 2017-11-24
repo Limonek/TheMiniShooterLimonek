@@ -21,6 +21,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Basic)
 		FString SaveSlotName;
 
+	UPROPERTY(VisibleAnywhere, Category = Basic)
+		FString palyerName;
+
 	UPROPERTY()
 		FString levelName;
 

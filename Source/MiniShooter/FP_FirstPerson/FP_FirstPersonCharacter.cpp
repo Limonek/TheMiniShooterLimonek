@@ -20,9 +20,10 @@ DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 AFP_FirstPersonCharacter::AFP_FirstPersonCharacter()
 {
 	//MnShtr change:
-	if(GEngine)
+	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, TEXT("FP_FIRST PERSON CHARACTER.CPP"));
 	//end of MnShtr change
+
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -35,7 +36,7 @@ AFP_FirstPersonCharacter::AFP_FirstPersonCharacter()
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
 	FirstPersonCameraComponent->RelativeLocation = FVector(0, 0, 64.f); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
-	
+
 	// Create a mesh component that will be used when being viewed from a '1st person' view (when controlling this pawn)
 	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh1P"));
 	Mesh1P->SetOnlyOwnerSee(true);				// Set so only owner can see mesh
@@ -68,23 +69,23 @@ void AFP_FirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* 
 {
 	// set up gameplay key bindings
 	check(PlayerInputComponent);
-	
+
 	// Set up gameplay key bindings
 
 	// Bind jump events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-	
+
 	// Bind fire event
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFP_FirstPersonCharacter::OnFire);
-	
+
 	// Attempt to enable touch screen movement
 	TryEnableTouchscreenMovement(PlayerInputComponent);
 
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFP_FirstPersonCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFP_FirstPersonCharacter::MoveRight);
-	
+
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
@@ -94,7 +95,7 @@ void AFP_FirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AFP_FirstPersonCharacter::LookUpAtRate);
 
 	///////////////////////////////////////////////MnShtr input
-	PlayerInputComponent->BindAction("PauseMenu", IE_Pressed,this, &AFP_FirstPersonCharacter::ShowPauseMenu);
+	PlayerInputComponent->BindAction("PauseMenu", IE_Pressed, this, &AFP_FirstPersonCharacter::ShowPauseMenu);
 	PlayerInputComponent->BindAction("Save", IE_Released, this, &AFP_FirstPersonCharacter::SaveGame);
 	PlayerInputComponent->BindAction("Load", IE_Released, this, &AFP_FirstPersonCharacter::LoadGame);
 }
@@ -109,11 +110,11 @@ void AFP_FirstPersonCharacter::OnFire()
 	}
 
 	// Try and play a firing animation if specified
-	if(FireAnimation != NULL)
+	if (FireAnimation != NULL)
 	{
 		// Get the animation object for the arms mesh
 		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
-		if(AnimInstance != NULL)
+		if (AnimInstance != NULL)
 		{
 			AnimInstance->Montage_Play(FireAnimation, 1.f);
 		}
@@ -121,7 +122,7 @@ void AFP_FirstPersonCharacter::OnFire()
 
 	// Now send a trace from the end of our gun to see if we should hit anything
 	APlayerController* PlayerController = Cast<APlayerController>(GetController());
-	
+
 	// Calculate the direction of fire and the start location for trace
 	FVector CamLoc;
 	FRotator CamRot;
@@ -161,12 +162,12 @@ void AFP_FirstPersonCharacter::BeginTouch(const ETouchIndex::Type FingerIndex, c
 	// If touch is already pressed check the index. If it is not the same as the current touch assume a second touch and thus we want to fire
 	if (TouchItem.bIsPressed == true)
 	{
-		if( TouchItem.FingerIndex != FingerIndex)
+		if (TouchItem.FingerIndex != FingerIndex)
 		{
-			OnFire();			
+			OnFire();
 		}
 	}
-	else 
+	else
 	{
 		// Cache the finger index and touch location and flag we are processing a touch
 		TouchItem.bIsPressed = true;
@@ -179,7 +180,7 @@ void AFP_FirstPersonCharacter::BeginTouch(const ETouchIndex::Type FingerIndex, c
 void AFP_FirstPersonCharacter::EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location)
 {
 	// If we didn't record the start event do nothing, or this is a different index
-	if((TouchItem.bIsPressed == false) || ( TouchItem.FingerIndex != FingerIndex) )
+	if ((TouchItem.bIsPressed == false) || (TouchItem.FingerIndex != FingerIndex))
 	{
 		return;
 	}
@@ -274,7 +275,7 @@ void AFP_FirstPersonCharacter::TryEnableTouchscreenMovement(UInputComponent* Pla
 {
 	PlayerInputComponent->BindTouch(EInputEvent::IE_Pressed, this, &AFP_FirstPersonCharacter::BeginTouch);
 	PlayerInputComponent->BindTouch(EInputEvent::IE_Released, this, &AFP_FirstPersonCharacter::EndTouch);
-	PlayerInputComponent->BindTouch(EInputEvent::IE_Repeat, this, &AFP_FirstPersonCharacter::TouchUpdate);	
+	PlayerInputComponent->BindTouch(EInputEvent::IE_Repeat, this, &AFP_FirstPersonCharacter::TouchUpdate);
 }
 
 //MnShtr function
@@ -303,5 +304,5 @@ void AFP_FirstPersonCharacter::SaveGame()
 	SaveGameInstance->Location = GetActorLocation();
 	SaveGameInstance->Rotation = GetController()->GetControlRotation();
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->UserIndex);
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Game Saved"));	
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Game Saved"));
 }

@@ -2,6 +2,8 @@
 
 #include "MnShtrSaveGameButton.h"
 #include "MnShtrMainMenuGameMode.h"
+#include "MnShtrGameInstance.h"
+#include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 #include "MnShtrSaveGame.h"
 
@@ -32,23 +34,29 @@ void UMnShtrSaveGameButton::LoadGameFile()
 {
 	UMnShtrSaveGame* LoadGameInstance = Cast<UMnShtrSaveGame>(UGameplayStatics::CreateSaveGameObject(UMnShtrSaveGame::StaticClass()));
 	LoadGameInstance = Cast<UMnShtrSaveGame>(UGameplayStatics::LoadGameFromSlot(saveSlotName, LoadGameInstance->UserIndex));
-	//AMnShtrMainMenuGameMode* gameMode = Cast<AMnShtrMainMenuGameMode>(GetWorld()->GetAuthGameMode());
-	//if (gameMode) gameMode->ChangeMenuWidget(nullptr);
 
 	UGameplayStatics::OpenLevel(world, "FirstPersonExampleMap2");
-	
-	APlayerController *playerController = world->GetFirstPlayerController();
-	playerController->SetInputMode(FInputModeGameOnly());
-	playerController->bShowMouseCursor = false;
-	playerController->SetPause(false);
+	UMnShtrGameInstance* gameInstance=Cast<UMnShtrGameInstance>( world->GetGameInstance());
+	gameInstance->mustRead = true;
+	gameInstance->location = LoadGameInstance->Location;
+	gameInstance->rotation = LoadGameInstance->Rotation;
+	//gameInstance->playerName = LoadGameInstance->playerName;
 
-	playerController->SetControlRotation(LoadGameInstance->Rotation);
-	if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, LoadGameInstance->Rotation.ToString());
-	//playerController->SetActorLocation(LoadGameInstance->Location);
-	//playerController->SetActorLocation(LoadGameInstance->Location);
+	//ACharacter* player = UGameplayStatics::GetPlayerCharacter(world, 0);
+	//APlayerController *playerController = world->GetFirstPlayerController();
+	//playerController->SetInputMode(FInputModeGameOnly());
+	//playerController->bShowMouseCursor = false;
+	//playerController->SetPause(false);
+	//if (player)
+	//{
+	//	if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, player->GetController()->GetControlRotation().ToString());
+	//	player->GetController()->SetControlRotation(LoadGameInstance->Rotation);
+	//	if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, player->GetController()->GetControlRotation().ToString());
+	//}
+	//playerController->SetControlRotation(LoadGameInstance->Rotation);
+	//if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, LoadGameInstance->Rotation.ToString());
 	//playerController->SetActorLocation(LoadGameInstance->Location);
 	// GetController()->SetControlRotation(LoadGameInstance->Rotation);
-
 	//ChangeMenuWidget(nullptr);
 	//UGameplayStatics::OpenLevel(GetWorld(), "FirstPersonExampleMap");
 	//APlayerController *playerController = GetWorld()->GetFirstPlayerController();

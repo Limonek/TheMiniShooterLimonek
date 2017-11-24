@@ -9,7 +9,7 @@
 
 ULoadMenuCPP::ULoadMenuCPP(const FObjectInitializer& ObjectInitializer) :Super(ObjectInitializer)
 {
-	if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("CPP Constructor"));
+	if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("Load Menu CPP Constructor"));
 }
 
 void ULoadMenuCPP::UpdateSaveGameList()
