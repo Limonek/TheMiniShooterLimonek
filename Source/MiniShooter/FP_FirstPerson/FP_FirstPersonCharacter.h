@@ -156,6 +156,8 @@ public:
 
 
 	//MnShtr changes:
-	void AddPauseMenu();
+	void ShowPauseMenu();
+	void LoadGame();
+	void SaveGame();
 };
 
