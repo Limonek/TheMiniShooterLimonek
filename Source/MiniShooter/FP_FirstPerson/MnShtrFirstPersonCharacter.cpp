@@ -33,6 +33,8 @@ void AMnShtrFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponen
 	} while (i);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMnShtrFirstPersonCharacter::OnStartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMnShtrFirstPersonCharacter::OnStopJump);
+	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &AMnShtrFirstPersonCharacter::StartRun);
+	PlayerInputComponent->BindAction("Run", IE_Released, this, &AMnShtrFirstPersonCharacter::StopRun);
 }
 
 void AMnShtrFirstPersonCharacter::ShowPauseMenu()
@@ -78,14 +80,13 @@ void AMnShtrFirstPersonCharacter::OnStopJump()
 	bPressedJump = false;
 }
 //jumping end
+void AMnShtrFirstPersonCharacter::StopRun()
+{
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+}
 
-//void AMnShtrFirstPersonCharacter::StopRun()
-//{
-//	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
-//}
-//
-//void AMnShtrFirstPersonCharacter::StartRun()
-//{
-//	WalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
-//	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
-//}
+void AMnShtrFirstPersonCharacter::StartRun()
+{
+	WalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
+	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+}

@@ -37,9 +37,9 @@ protected:
 private:
 	void ShowPauseMenu();
 	void LoadGame();
-	//void StartRun();
-	//void StopRun();
+	void StartRun();
+	void StopRun();
 	void SaveGame();
-	//float WalkSpeed = 600;
-	//float RunSpeed = 1000;
+	float WalkSpeed = 600;
+	float RunSpeed = 1000;
 };
