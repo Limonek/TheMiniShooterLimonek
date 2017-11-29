@@ -3,17 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FP_FirstPerson/FP_FirstPersonGameMode.h"
+#include "MnShtrGameModeBase.h"
 #include "MnShtrMainMenuGameMode.generated.h"
 
 /**
- * 
- */
+*
+*/
 UCLASS()
-class MINISHOOTER_API AMnShtrMainMenuGameMode : public AFP_FirstPersonGameMode
+class MINISHOOTER_API AMnShtrMainMenuGameMode : public AMnShtrGameModeBase
 {
 	GENERATED_BODY()
-	
+
 public:
 	virtual void BeginPlay()override;
 
@@ -25,7 +25,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Maciek")
 		TSubclassOf<UUserWidget> OptionsMenuClass;
-	
+
 	UFUNCTION(BlueprintCallable, Category = "Maciek")
 		void PlayButtonClick();
 
@@ -40,7 +40,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Maciek")
 		void QuitButtonClick();
-	
+
 	UFUNCTION(BlueprintCallable, Category = "Maciek")
 		void BackButtonClick();
 };

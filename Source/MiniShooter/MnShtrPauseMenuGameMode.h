@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "FP_FirstPerson/FP_FirstPersonGameMode.h"
+#include "MnShtrGameModeBase.h"
 #include "MnShtrPauseMenuGameMode.generated.h"
 
 /**
- *
- */
+*
+*/
 UCLASS()
-class MINISHOOTER_API AMnShtrPauseMenuGameMode : public AFP_FirstPersonGameMode
+class MINISHOOTER_API AMnShtrPauseMenuGameMode : public AMnShtrGameModeBase
 {
 	GENERATED_BODY()
 public:
