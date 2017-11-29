@@ -18,21 +18,21 @@ void AMnShtrFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAction("PauseMenu", IE_Pressed, this, &AMnShtrFirstPersonCharacter::ShowPauseMenu);
 	PlayerInputComponent->BindAction("Save", IE_Released, this, &AMnShtrFirstPersonCharacter::SaveGame);
 	PlayerInputComponent->BindAction("Load", IE_Released, this, &AMnShtrFirstPersonCharacter::LoadGame);
-	//size_t i = -1;
-	//do {
-	//	for (i = 0; i < PlayerInputComponent->GetNumActionBindings(); i++)
-	//	{
-	//		if (PlayerInputComponent->GetActionBinding(i).ActionName == "Jump")
-	//			break;
-	//	}
-	//	if (i == PlayerInputComponent->GetNumActionBindings())
-	//		i = 0;
-	//	else
-	//		PlayerInputComponent->RemoveActionBinding(i);
+	size_t i = -1;
+	do {
+		for (i = 0; i < PlayerInputComponent->GetNumActionBindings(); i++)
+		{
+			if (PlayerInputComponent->GetActionBinding(i).ActionName == "Jump")
+				break;
+		}
+		if (i == PlayerInputComponent->GetNumActionBindings())
+			i = 0;
+		else
+			PlayerInputComponent->RemoveActionBinding(i);
 
-	//} while (i);
-	//PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMnShtrFirstPersonCharacter::OnStartJump);
-	//PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMnShtrFirstPersonCharacter::OnStopJump);
+	} while (i);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMnShtrFirstPersonCharacter::OnStartJump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMnShtrFirstPersonCharacter::OnStopJump);
 }
 
 void AMnShtrFirstPersonCharacter::ShowPauseMenu()
@@ -78,6 +78,7 @@ void AMnShtrFirstPersonCharacter::OnStopJump()
 	bPressedJump = false;
 }
 //jumping end
+
 //void AMnShtrFirstPersonCharacter::StopRun()
 //{
 //	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
