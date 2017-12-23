@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-#include "BTTaskMoveToPlayer.h"
+
+#include "BTTask_MoveToPlayer.h"
 #include "MiniShooter.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
@@ -8,15 +9,11 @@
 #include "AIBasicEnemyChar.h"
 #include "AIBasicEnemyCtr.h"
 
-
-
-
-
-EBTNodeResult::Type UBTTaskMoveToPlayer::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
+EBTNodeResult::Type UBTTask_MoveToPlayer::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	AAIBasicEnemyCtr *CharPc = Cast<AAIBasicEnemyCtr>(OwnerComp.GetAIOwner());
 
-	AAIBasicEnemyChar *Enemy = Cast<AAIBasicEnemyChar>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPc->EnemyKeyID));
+	ACharacter *Enemy = Cast<ACharacter>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPc->EnemyKeyID));
 
 	if (Enemy)
 	{
@@ -30,3 +27,4 @@ EBTNodeResult::Type UBTTaskMoveToPlayer::ExecuteTask(UBehaviorTreeComponent& Own
 
 	EBTNodeResult::Failed;
 }
+

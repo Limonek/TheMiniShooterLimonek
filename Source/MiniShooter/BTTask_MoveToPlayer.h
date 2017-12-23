@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
-#include "BTTaskMoveToPlayer.generated.h"
+#include "BTTask_MoveToPlayer.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MINISHOOTER_API UBTTaskMoveToPlayer : public UBTTask_BlackboardBase
+class MINISHOOTER_API UBTTask_MoveToPlayer : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
 	
