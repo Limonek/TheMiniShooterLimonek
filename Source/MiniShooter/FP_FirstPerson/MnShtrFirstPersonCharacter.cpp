@@ -5,6 +5,7 @@
 #include "MnShtrGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/DamageType.h"
 
 AMnShtrFirstPersonCharacter::AMnShtrFirstPersonCharacter() :Super()
 {
@@ -79,6 +80,7 @@ void AMnShtrFirstPersonCharacter::OnStopJump()
 {
 	bPressedJump = false;
 }
+
 //jumping end
 void AMnShtrFirstPersonCharacter::StopRun()
 {
@@ -89,4 +91,26 @@ void AMnShtrFirstPersonCharacter::StartRun()
 {
 	WalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
 	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+}
+
+void AMnShtrFirstPersonCharacter::FellOutOfWorld(const UDamageType &dmgType)
+{
+	if (GEngine)
+	{
+		UE_LOG(LogTemp, Log, TEXT("bCausedByWorld = %d"), dmgType.bCausedByWorld);
+		UE_LOG(LogTemp, Log, TEXT("bRadialDamageVelChange = %d"), dmgType.bRadialDamageVelChange);
+		UE_LOG(LogTemp, Log, TEXT("bScaleMomentumByMass = %d"), dmgType.bScaleMomentumByMass);
+		UE_LOG(LogTemp, Log, TEXT("DamageFalloff = %f"), dmgType.DamageFalloff);
+		UE_LOG(LogTemp, Log, TEXT("DamageImpulse = %f"), dmgType.DamageImpulse);
+		UE_LOG(LogTemp, Log, TEXT("DestructibleDamageSpreadScale = %f"), dmgType.DestructibleDamageSpreadScale);
+		UE_LOG(LogTemp, Log, TEXT("DestructibleImpulse = %f"), dmgType.DestructibleImpulse);
+		UE_LOG(LogTemp, Log, TEXT("Maciej Lewinski pisze logi"));
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("bCausedByWorld ") + FString::FromInt(dmgType.bCausedByWorld));
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("bRadialDamageVelChange ")+FString::FromInt(dmgType.bRadialDamageVelChange));
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("bScaleMomentumByMass ") + FString::FromInt(dmgType.bScaleMomentumByMass));
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("DamageFalloff ") + FString::SanitizeFloat(dmgType.DamageFalloff));
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("DamageImpulse ") + FString::SanitizeFloat(dmgType.DamageImpulse));
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("DestructibleDamageSpreadScale ") + FString::SanitizeFloat(dmgType.DestructibleDamageSpreadScale));
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("DestructibleImpulse ") + FString::SanitizeFloat(dmgType.DestructibleImpulse));
+	}
 }

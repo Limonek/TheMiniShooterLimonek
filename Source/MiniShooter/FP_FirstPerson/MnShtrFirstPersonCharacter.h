@@ -20,6 +20,9 @@ public:
 		void OnStartJump();
 	UFUNCTION()
 		void OnStopJump();
+
+		virtual void FellOutOfWorld(const UDamageType & dmgType)override;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character Movement")
 		int32 MaxJumpCount;
 	UPROPERTY()
