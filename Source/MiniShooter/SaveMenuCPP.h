@@ -15,8 +15,8 @@ class MINISHOOTER_API USaveMenuCPP : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	UFUNCTION(BlueprintCallable, Category = "Maciek")
+	UFUNCTION(BlueprintCallable, Category = "MnShtr")
 		void SaveButtonClick();
-	UPROPERTY(BlueprintReadWrite, Category = "Maciek")
+	UPROPERTY(BlueprintReadWrite, Category = "MnShtr")
 		UEditableTextBox *SaveGameNameTextBox;
 };

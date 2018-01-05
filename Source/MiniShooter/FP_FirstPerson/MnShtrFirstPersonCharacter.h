@@ -14,6 +14,9 @@ class MINISHOOTER_API AMnShtrFirstPersonCharacter : public AFP_FirstPersonCharac
 {
 	GENERATED_BODY()
 public:
+	FTimerHandle DeadTimerHandle;
+	UFUNCTION(BlueprintCallable, Category=MnShtr)
+	void CountdownFinished();
 	AMnShtrFirstPersonCharacter();
 	//jumping
 	UFUNCTION()
@@ -21,7 +24,10 @@ public:
 	UFUNCTION()
 		void OnStopJump();
 
-		virtual void FellOutOfWorld(const UDamageType & dmgType)override;
+	virtual void FellOutOfWorld(const UDamageType & dmgType)override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "MnShtr")
+		TSubclassOf<UUserWidget> DeadWidgetClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character Movement")
 		int32 MaxJumpCount;

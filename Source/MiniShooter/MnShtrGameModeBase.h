@@ -23,10 +23,11 @@ protected:
 
 public:
 	UPROPERTY()
-		UUserWidget* CurrentWidget;
+		UUserWidget* CurrentWidget=nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Maciek")
 		TSubclassOf<UUserWidget> StartingWidget;
 
-	void StartShowingStartingWidget();
+	UFUNCTION()
+		void StartShowingStartingWidget();
 };

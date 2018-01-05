@@ -38,5 +38,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Maciek")
 		void BackButtonClick();
-
 };

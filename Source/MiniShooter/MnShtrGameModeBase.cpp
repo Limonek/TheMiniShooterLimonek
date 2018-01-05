@@ -4,16 +4,14 @@
 #include "MnShtrGameInstance.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
-
 void AMnShtrGameModeBase::StartShowingStartingWidget()
 {
 	ChangeMenuWidget(StartingWidget);
 	APlayerController *playerController = GetWorld()->GetFirstPlayerController();
-	playerController->SetInputMode(FInputModeGameAndUI());
+	playerController->SetInputMode(FInputModeUIOnly());
 	playerController->bShowMouseCursor = true;
 	playerController->SetPause(true);
 }
-
 void AMnShtrGameModeBase::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
 {
 	if (CurrentWidget)
@@ -30,7 +28,6 @@ void AMnShtrGameModeBase::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetCla
 		}
 	}
 }
-
 void AMnShtrGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();

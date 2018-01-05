@@ -6,6 +6,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/DamageType.h"
+#include "Public/TimerManager.h"
+#include "DelayAction.h"
 
 AMnShtrFirstPersonCharacter::AMnShtrFirstPersonCharacter() :Super()
 {
@@ -80,19 +82,16 @@ void AMnShtrFirstPersonCharacter::OnStopJump()
 {
 	bPressedJump = false;
 }
-
 //jumping end
 void AMnShtrFirstPersonCharacter::StopRun()
 {
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
-
 void AMnShtrFirstPersonCharacter::StartRun()
 {
 	WalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
 	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 }
-
 void AMnShtrFirstPersonCharacter::FellOutOfWorld(const UDamageType &dmgType)
 {
 	if (GEngine)
@@ -106,11 +105,39 @@ void AMnShtrFirstPersonCharacter::FellOutOfWorld(const UDamageType &dmgType)
 		UE_LOG(LogTemp, Log, TEXT("DestructibleImpulse = %f"), dmgType.DestructibleImpulse);
 		UE_LOG(LogTemp, Log, TEXT("Maciej Lewinski pisze logi"));
 		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("bCausedByWorld ") + FString::FromInt(dmgType.bCausedByWorld));
-		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("bRadialDamageVelChange ")+FString::FromInt(dmgType.bRadialDamageVelChange));
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("bRadialDamageVelChange ") + FString::FromInt(dmgType.bRadialDamageVelChange));
 		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("bScaleMomentumByMass ") + FString::FromInt(dmgType.bScaleMomentumByMass));
 		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("DamageFalloff ") + FString::SanitizeFloat(dmgType.DamageFalloff));
 		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("DamageImpulse ") + FString::SanitizeFloat(dmgType.DamageImpulse));
 		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("DestructibleDamageSpreadScale ") + FString::SanitizeFloat(dmgType.DestructibleDamageSpreadScale));
 		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, TEXT("DestructibleImpulse ") + FString::SanitizeFloat(dmgType.DestructibleImpulse));
 	}
+	AMnShtrGameModeBase* gameMode = Cast<AMnShtrGameModeBase>(GetWorld()->GetAuthGameMode());
+	if (gameMode)
+	{
+		if (DeadWidgetClass)
+		{
+			gameMode->ChangeMenuWidget(DeadWidgetClass);
+			APlayerController *playerController = GetWorld()->GetFirstPlayerController();
+			playerController->SetPause(true);
+			this->SetTickableWhenPaused(true);
+			playerController->SetInputMode(FInputModeUIOnly());
+			int32 UUID = 123;
+			if (UWorld* World = GetWorld())
+			{
+				FLatentActionManager& LatentActionManager = World->GetLatentActionManager();
+				if (LatentActionManager.FindExistingAction<FDelayAction>(this, UUID)==NULL)
+				{
+					FLatentActionInfo LatentActionInfo(0, UUID, TEXT("CountdownFinished"), this);
+					LatentActionManager.AddNewAction(this, UUID, new FDelayAction(3, LatentActionInfo));
+				}
+			}
+		}
+	}
 }
+void AMnShtrFirstPersonCharacter::CountdownFinished()
+{
+	AMnShtrGameModeBase* gameMode = Cast<AMnShtrGameModeBase>(GetWorld()->GetAuthGameMode());
+	gameMode->ChangeMenuWidget(nullptr);
+}
+
