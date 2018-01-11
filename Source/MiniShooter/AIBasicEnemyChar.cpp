@@ -33,3 +33,8 @@ void AAIBasicEnemyChar::SetupPlayerInputComponent(class UInputComponent* InputCo
 
 }
 
+void AAIBasicEnemyChar::GetRekt(float dmg)
+{
+	Destroy();
+}
+
