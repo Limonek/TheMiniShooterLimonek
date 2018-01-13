@@ -45,10 +45,10 @@ protected:
 	// End of APawn interface
 private:
 	void ShowPauseMenu();
-	void LoadGame();
+	//void LoadGame();
 	void StartRun();
 	void StopRun();
-	void SaveGame();
+	//void SaveGame();
 	float WalkSpeed = 600;
 	float RunSpeed = 1000;
 };

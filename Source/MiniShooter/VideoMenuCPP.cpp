@@ -6,7 +6,7 @@
 
 void UVideoMenuCPP::FillScreenResolutionsComboBox()
 {
-	if (ScreenResolutionsComboBoxCPP && GEngine)
+	if (ScreenResolutionsComboBoxCPP)
 	{
 		TArray<FString> resolutions = GetSupportedScreenResolutions();
 		for (size_t i = 0; i < resolutions.Num(); ++i)
@@ -15,7 +15,6 @@ void UVideoMenuCPP::FillScreenResolutionsComboBox()
 		}
 	}
 	ScreenResolutionsComboBoxCPP->SetSelectedOption(FString::FromInt(GSystemResolution.ResX) + TEXT(" x ") + FString::FromInt(GSystemResolution.ResY));
-	if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, FString::FromInt(GSystemResolution.ResX) + TEXT(" x ") + FString::FromInt(GSystemResolution.ResY));
 }
 
 TArray<FString>  UVideoMenuCPP::GetSupportedScreenResolutions()
@@ -24,11 +23,12 @@ TArray<FString>  UVideoMenuCPP::GetSupportedScreenResolutions()
 	TArray <FScreenResolutionRHI>RHIScreenResolutions;
 	if (RHIGetAvailableResolutions(RHIScreenResolutions, true))
 		for (size_t i = 0; i < RHIScreenResolutions.Num(); i++) {
-			screenResolutions.Add(
-				FString::FromInt(RHIScreenResolutions[i].Width) +
-				TEXT(" x ") +
-				FString::FromInt(RHIScreenResolutions[i].Height)
-			);
+			if (RHIScreenResolutions[i].Width >= 600 && RHIScreenResolutions[i].Height >= 600)
+				screenResolutions.Add(
+					FString::FromInt(RHIScreenResolutions[i].Width) +
+					TEXT(" x ") +
+					FString::FromInt(RHIScreenResolutions[i].Height)
+				);
 		}
 	return screenResolutions;
 }
@@ -99,7 +99,6 @@ void UVideoMenuCPP::InitializeAntiAliasingHorizontalBoxContent()
 	int32 antiAliasing = settings->ScalabilityQuality.AntiAliasingQuality;
 	if (AntiAliasingComboBoxCPP)
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("AntiAliasingTextBlockCPP !=null"));
 		AntiAliasingComboBoxCPP->AddOption(TEXT("Low"));
 		AntiAliasingComboBoxCPP->AddOption(TEXT("Medium"));
 		AntiAliasingComboBoxCPP->AddOption(TEXT("High"));
@@ -114,12 +113,7 @@ void UVideoMenuCPP::InitializeAntiAliasingHorizontalBoxContent()
 		else if (antiAliasing == 6)
 			AntiAliasingComboBoxCPP->SetSelectedOption(TEXT("Epic"));
 	}
-	else
-	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("AntiAliasingTextBlockCPP == null"));
-	}
 }
-
 
 void UVideoMenuCPP::ApplyAntiAliasing()
 {
@@ -130,22 +124,18 @@ void UVideoMenuCPP::ApplyAntiAliasing()
 	}
 	if (AntiAliasingComboBoxCPP->GetSelectedOption() == TEXT("Low"))
 	{
-		if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("settings->ScalabilityQuality.AntiAliasingQuality = 0;"));
 		settings->ScalabilityQuality.AntiAliasingQuality = 0;
 	}
 	else if (AntiAliasingComboBoxCPP->GetSelectedOption() == TEXT("Medium"))
 	{
-		if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("settings->ScalabilityQuality.AntiAliasingQuality = 2;"));
 		settings->ScalabilityQuality.AntiAliasingQuality = 2;
 	}
 	else if (AntiAliasingComboBoxCPP->GetSelectedOption() == TEXT("High"))
 	{
-		if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("settings->ScalabilityQuality.AntiAliasingQuality = 4;"));
 		settings->ScalabilityQuality.AntiAliasingQuality = 4;
 	}
 	else if (AntiAliasingComboBoxCPP->GetSelectedOption() == TEXT("Epic"))
 	{
-		if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("settings->ScalabilityQuality.AntiAliasingQuality = 6;"));
 		settings->ScalabilityQuality.AntiAliasingQuality = 6;
 	}
 	settings->ConfirmVideoMode();
@@ -155,7 +145,31 @@ void UVideoMenuCPP::ApplyAntiAliasing()
 
 void UVideoMenuCPP::ApplyShadows()
 {
-			
+	UGameUserSettings* settings = UGameUserSettings::GetGameUserSettings();
+	if (!settings)
+	{
+		return;
+	}
+	if (ShadowsComboBoxCPP->GetSelectedOption() == TEXT("Low"))
+	{
+		settings->SetShadowQuality(0);
+	}
+	else if (ShadowsComboBoxCPP->GetSelectedOption() == TEXT("Medium"))
+	{
+		settings->SetShadowQuality(1);
+	}
+	else if (ShadowsComboBoxCPP->GetSelectedOption() == TEXT("High"))
+	{
+		settings->SetShadowQuality(2);
+	}
+	else if (ShadowsComboBoxCPP->GetSelectedOption() == TEXT("Epic"))
+	{
+		settings->SetShadowQuality(3);
+	}
+	settings->ConfirmVideoMode();
+	settings->ApplyNonResolutionSettings();
+	settings->SaveSettings();
+
 }
 
 void UVideoMenuCPP::InitializeShadowsHorizontalBoxContent()
@@ -165,26 +179,21 @@ void UVideoMenuCPP::InitializeShadowsHorizontalBoxContent()
 	{
 		return;
 	}
-	//int32 antiAliasing = settings->ScalabilityQuality.AntiAliasingQuality;
+	int32 shadowQuality = settings->GetShadowQuality();
 	if (ShadowsComboBoxCPP)
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("AntiAliasingTextBlockCPP !=null"));
 		ShadowsComboBoxCPP->AddOption(TEXT("Low"));
 		ShadowsComboBoxCPP->AddOption(TEXT("Medium"));
 		ShadowsComboBoxCPP->AddOption(TEXT("High"));
 		ShadowsComboBoxCPP->AddOption(TEXT("Epic"));
 		ShadowsComboBoxCPP->SetSelectedOption(TEXT("Low"));
-		/*if (antiAliasing == 0)
-			AntiAliasingComboBoxCPP->SetSelectedOption(TEXT("Low"));
-		else if (antiAliasing == 2)
-			AntiAliasingComboBoxCPP->SetSelectedOption(TEXT("Medium"));
-		else if (antiAliasing == 4)
-			AntiAliasingComboBoxCPP->SetSelectedOption(TEXT("High"));
-		else if (antiAliasing == 6)
-			AntiAliasingComboBoxCPP->SetSelectedOption(TEXT("Epic"));*/
-	}
-	else
-	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("AntiAliasingTextBlockCPP == null"));
+		if (shadowQuality == 0)
+			ShadowsComboBoxCPP->SetSelectedOption(TEXT("Low"));
+		else if (shadowQuality == 1)
+			ShadowsComboBoxCPP->SetSelectedOption(TEXT("Medium"));
+		else if (shadowQuality == 2)
+			ShadowsComboBoxCPP->SetSelectedOption(TEXT("High"));
+		else if (shadowQuality == 3)
+			ShadowsComboBoxCPP->SetSelectedOption(TEXT("Epic"));
 	}
 }

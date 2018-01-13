@@ -7,9 +7,6 @@
 #include "Components/Button.h"
 #include "MnShtrSaveGameButton.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLoadDelegate, FString, NazwaPliku);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FClickDelegate);
-
 /**
  *
  */
@@ -28,17 +25,7 @@ public:
 	UPROPERTY()
 		UWorld *world;
 
-	UMnShtrSaveGameButton(FString name, UWorld *world);
 	UMnShtrSaveGameButton();
-
-	UPROPERTY()
-		FLoadDelegate load;
-
-	UPROPERTY()
-		FClickDelegate click;
-
-	UFUNCTION()
-		void OnClick();
 
 	UFUNCTION()
 		void LoadGameFile();

@@ -15,27 +15,31 @@ class MINISHOOTER_API AMnShtrPauseMenuGameMode : public AMnShtrGameModeBase
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Maciek")
+
+	UFUNCTION(BlueprintCallable, Category = Game)
+		AActor* ChoosePlayerStart_Implementation(AController* Player);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "MnShtr")
 		TSubclassOf<UUserWidget> PauseMenuClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Maciek")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "MnShtr")
 		TSubclassOf<UUserWidget> SaveMenuClass;
 
-	UFUNCTION(BlueprintCallable, Category = "Maciek")
+	UFUNCTION(BlueprintCallable, Category = "MnShtr")
 		void ResumeButtonClick();
 
-	UFUNCTION(BlueprintCallable, Category = "Maciek")
+	UFUNCTION(BlueprintCallable, Category = "MnShtr")
 		void SaveButtonClick();
 
-	UFUNCTION(BlueprintCallable, Category = "Maciek")
+	UFUNCTION(BlueprintCallable, Category = "MnShtr")
 		void SaveMenuSaveButtonClick();
 
-	UFUNCTION(BlueprintCallable, Category = "Maciek")
+	UFUNCTION(BlueprintCallable, Category = "MnShtr")
 		void MainMenuButtonClick();
 
-	UFUNCTION(BlueprintCallable, Category = "Maciek")
+	UFUNCTION(BlueprintCallable, Category = "MnShtr")
 		void QuitButtonClick();
 
-	UFUNCTION(BlueprintCallable, Category = "Maciek")
+	UFUNCTION(BlueprintCallable, Category = "MnShtr")
 		void BackButtonClick();
 };

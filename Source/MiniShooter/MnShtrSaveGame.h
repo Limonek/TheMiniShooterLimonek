@@ -16,23 +16,32 @@ class MINISHOOTER_API UMnShtrSaveGame : public USaveGame
 
 public:
 	UMnShtrSaveGame();
-	UMnShtrSaveGame(FText name);
+	//UMnShtrSaveGame(FText name);
 
-	UPROPERTY(VisibleAnywhere, Category = Basic)
-		FString SaveSlotName;
+	//UPROPERTY()
+	//	uint32 UserIndex;
 
-	UPROPERTY(VisibleAnywhere, Category = Basic)
-		FString palyerName;
+	//UPROPERTY()
+	//	FString SaveSlotName;
 
 	UPROPERTY()
-		FString levelName;
+		FText PlayerName;
 
-	UPROPERTY(VisibleAnywhere, Category = Basic)
-		uint32 UserIndex;
+	UPROPERTY()
+		FName Level;
 
-	UPROPERTY(VisibleAnywhere, Category = Basic)
-		FVector Location;
+	UPROPERTY()
+		FName Stage;
 
-	UPROPERTY(VisibleAnywhere, Category = Basic)
-		FRotator Rotation;
+	UPROPERTY()
+		bool CanRun;
+
+	UPROPERTY()
+		bool CanJump;
+
+	UPROPERTY()
+		bool BetterGun;
+
+	UPROPERTY()
+		int32 Exp;
 };

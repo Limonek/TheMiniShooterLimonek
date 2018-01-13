@@ -16,19 +16,30 @@ class MINISHOOTER_API UMnShtrGameInstance : public UGameInstance
 public:
 	UMnShtrGameInstance(const FObjectInitializer& ObjectInitializer);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SaveGameInfo")
-		FVector location;
+	UFUNCTION()
+		void InitializeNewPlayerGameInstance(FText PlayerName, FName FirstLevel);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SaveGameInfo")
-		FRotator rotation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MnShtr|SaveGameInfo")
+		FText PlayerName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SaveGameInfo")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MnShtr|SaveGameInfo")
+		FName Level;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MnShtr|SaveGameInfo")
+		FName Stage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MnShtr|SaveGameInfo")
+		bool CanRun;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MnShtr|SaveGameInfo")
+		bool CanJump;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MnShtr|SaveGameInfo")
+		bool BetterGun;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MnShtr|SaveGameInfo")
+		int32 Exp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MnShtr|SaveGameInfo")
 		bool mustRead;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SaveGameInfo")
-		FString playerName;
-
-
-
-
 };

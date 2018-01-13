@@ -7,16 +7,10 @@
 #include "Components/ButtonSlot.h"
 #include "Components/Button.h"
 
-ULoadMenuCPP::ULoadMenuCPP(const FObjectInitializer& ObjectInitializer) :Super(ObjectInitializer)
-{
-	if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("Load Menu CPP Constructor"));
-}
-
 void ULoadMenuCPP::UpdateSaveGameList()
 {
 	if (!SavedGamesContainer)
 	{
-		if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("ScrollBox is not set!"));
 		return;
 	}
 	UMnShtrSaveGameButton *button;
@@ -33,7 +27,6 @@ void ULoadMenuCPP::UpdateSaveGameList()
 		button = NewObject<UMnShtrSaveGameButton>(this, UMnShtrSaveGameButton::StaticClass());
 		button->saveSlotName = Str;
 		button->world = GetWorld();
-		//(button->OnClicked).AddDynamic(this, &ULoadMenuCPP::OnClick);
 		slot = button->AddChild(text);
 		buttonSlot = Cast<UButtonSlot>(slot);
 		buttonSlot->HorizontalAlignment = EHorizontalAlignment::HAlign_Left;
@@ -44,24 +37,12 @@ void ULoadMenuCPP::UpdateSaveGameList()
 	}
 }
 
-void ULoadMenuCPP::OnClick()
-{
-	//UMnShtrSaveGame* LoadGameInstance = Cast<UMnShtrSaveGame>(UGameplayStatics::CreateSaveGameObject(UMnShtrSaveGame::StaticClass()));
-	//LoadGameInstance = Cast<UMnShtrSaveGame>(UGameplayStatics::LoadGameFromSlot(LoadGameInstance->SaveSlotName, LoadGameInstance->UserIndex));
-	//this->SetActorLocation(LoadGameInstance->Location);
-	//GetController()->SetControlRotation(LoadGameInstance->Rotation);
-	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Game loaded"));
-	if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("LoadMenuCPP Button Click! :)"));
-}
-
-
 TArray<FString> ULoadMenuCPP::ListSavedGameSlots()
 {
-
 	TArray<FString> FileNames;
 	TArray<FString> FileNamesWithoutExtensions;
 	FFileManagerGeneric FileMgr;
-	FileMgr.SetSandboxEnabled(true);// don't ask why, I don't know :P
+	FileMgr.SetSandboxEnabled(true);
 	FString wildcard("*"); // May be "" (empty string) to search all files
 	FString search_path(FPaths::Combine(*FPaths::GameSavedDir(), TEXT("SaveGames"), *wildcard));
 
@@ -75,7 +56,6 @@ TArray<FString> ULoadMenuCPP::ListSavedGameSlots()
 		f.RemoveFromEnd(extension);
 		FileNamesWithoutExtensions.Add(f);
 	}
-
 	return FileNamesWithoutExtensions;
 }
 

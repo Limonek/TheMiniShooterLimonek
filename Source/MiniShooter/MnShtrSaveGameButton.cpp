@@ -10,59 +10,24 @@
 UMnShtrSaveGameButton::UMnShtrSaveGameButton()
 {
 	OnClicked.AddDynamic(this, &UMnShtrSaveGameButton::LoadGameFile);
-
 	saveSlotName = TEXT("TestSaveSlot");
 	userIndex = 0;
-	//Bind function
-	//load.AddDynamic(this, &UMnShtrSaveGameButton::LoadGameFile);
-}
-
-UMnShtrSaveGameButton::UMnShtrSaveGameButton(FString name, UWorld* _world)
-{
-	saveSlotName = name;
-	userIndex = 0;
-	world = _world;
-}
-
-void UMnShtrSaveGameButton::OnClick()
-{
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT("My Save Game Button OnClick"));
-	LoadGameFile();
 }
 
 void UMnShtrSaveGameButton::LoadGameFile()
 {
-	UMnShtrSaveGame* LoadGameInstance = Cast<UMnShtrSaveGame>(UGameplayStatics::CreateSaveGameObject(UMnShtrSaveGame::StaticClass()));
-	LoadGameInstance = Cast<UMnShtrSaveGame>(UGameplayStatics::LoadGameFromSlot(saveSlotName, LoadGameInstance->UserIndex));
-
-	UGameplayStatics::OpenLevel(world, "FirstPersonExampleMap2");
-	UMnShtrGameInstance* gameInstance=Cast<UMnShtrGameInstance>( world->GetGameInstance());
+	UMnShtrSaveGame* loadGameInstance = Cast<UMnShtrSaveGame>(UGameplayStatics::CreateSaveGameObject(UMnShtrSaveGame::StaticClass()));
+	loadGameInstance = Cast<UMnShtrSaveGame>(UGameplayStatics::LoadGameFromSlot(saveSlotName, 0));
+	UMnShtrGameInstance* gameInstance = Cast<UMnShtrGameInstance>(world->GetGameInstance());
+	gameInstance->PlayerName = loadGameInstance->PlayerName;
+	gameInstance->Level= loadGameInstance->Level;
+	gameInstance->Stage = loadGameInstance->Stage;
+	gameInstance->CanRun = loadGameInstance->CanRun;
+	gameInstance->CanJump = loadGameInstance->CanJump;
+	gameInstance->BetterGun = loadGameInstance->BetterGun;
+	gameInstance->Exp = loadGameInstance->Exp;
 	gameInstance->mustRead = true;
-	gameInstance->location = LoadGameInstance->Location;
-	gameInstance->rotation = LoadGameInstance->Rotation;
-	//gameInstance->playerName = LoadGameInstance->playerName;
-
-	//ACharacter* player = UGameplayStatics::GetPlayerCharacter(world, 0);
-	//APlayerController *playerController = world->GetFirstPlayerController();
-	//playerController->SetInputMode(FInputModeGameOnly());
-	//playerController->bShowMouseCursor = false;
-	//playerController->SetPause(false);
-	//if (player)
-	//{
-	//	if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, player->GetController()->GetControlRotation().ToString());
-	//	player->GetController()->SetControlRotation(LoadGameInstance->Rotation);
-	//	if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, player->GetController()->GetControlRotation().ToString());
-	//}
-	//playerController->SetControlRotation(LoadGameInstance->Rotation);
-	//if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, LoadGameInstance->Rotation.ToString());
-	//playerController->SetActorLocation(LoadGameInstance->Location);
-	// GetController()->SetControlRotation(LoadGameInstance->Rotation);
-	//ChangeMenuWidget(nullptr);
-	//UGameplayStatics::OpenLevel(GetWorld(), "FirstPersonExampleMap");
-	//APlayerController *playerController = GetWorld()->GetFirstPlayerController();
-	//playerController->SetInputMode(FInputModeGameOnly());
-	//playerController->bShowMouseCursor = false;
-	//playerController->SetPause(false);
+	UGameplayStatics::OpenLevel(world, gameInstance->Level);	
 }
 
 
