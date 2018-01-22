@@ -10,8 +10,16 @@ UCLASS()
 class MINISHOOTER_API AAIHomeingMissle : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+	// Sphere collision component.
+	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
+	class	USphereComponent* CollisionComponent;
+
+	// Projectile movement component.
+	UPROPERTY(VisibleAnywhere, Category = Movement)
+	class	UProjectileMovementComponent* ProjectileMovementComponent;
+
+public:
 	// Sets default values for this actor's properties
 	AAIHomeingMissle();
 
@@ -19,10 +27,16 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	
-	
+	/** Returns CollisionComp subobject **/
+	class USphereComponent* GetCollisionComp() const { return CollisionComponent; }
+	/** Returns ProjectileMovement subobject **/
+	class UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovementComponent; }
+
+	UFUNCTION()
+		void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
 };
