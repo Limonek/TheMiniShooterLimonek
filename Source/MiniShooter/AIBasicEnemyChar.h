@@ -49,12 +49,16 @@ public:
 		void GetRekt(float dmg);
 
 	UFUNCTION()
-		void Fire();
+		void FireBasic();
 
 	UFUNCTION()
 		void Explode();
 
 	UFUNCTION()
 		void FireAll();
+
+private:
+
+		void Fire(int BulletType);
 
 };
