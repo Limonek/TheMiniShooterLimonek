@@ -121,4 +121,3 @@ void AMnShtrFirstPersonCharacter::CountdownFinished()
 	AMnShtrGameModeBase* gameMode = Cast<AMnShtrGameModeBase>(world->GetAuthGameMode());
 	gameMode->ChangeMenuWidget(nullptr);
 }
-

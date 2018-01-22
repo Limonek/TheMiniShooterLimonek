@@ -14,6 +14,8 @@ class MINISHOOTER_API AMnShtrFirstPersonCharacter : public AFP_FirstPersonCharac
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY()
+	int32 Exp;
 	FTimerHandle DeadTimerHandle;
 	UFUNCTION(BlueprintCallable, Category=MnShtr)
 	void CountdownFinished();
