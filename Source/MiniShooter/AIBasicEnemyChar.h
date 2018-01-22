@@ -21,6 +21,21 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	TSubclassOf<class AAIBullet> ProjectileClass;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
+	float HitPoints;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
+	float Experiance;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
+	float DmgMultiplier;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
+	float Energy;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
+	float MaxEnergy;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 

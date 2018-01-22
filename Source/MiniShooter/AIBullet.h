@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Core.h"
 #include "GameFramework/Actor.h"
 #include "AIBullet.generated.h"
 
-UCLASS()
+UCLASS(config = Game)
 class MINISHOOTER_API AAIBullet : public AActor
 {
 	GENERATED_BODY()
@@ -17,7 +17,7 @@ class MINISHOOTER_API AAIBullet : public AActor
 
 	// Projectile movement component.
 	UPROPERTY(VisibleAnywhere, Category = Movement)
-		class	UProjectileMovementComponent* ProjectileMovementComponent;
+	class	UProjectileMovementComponent* ProjectileMovementComponent;
 	
 public:	
 	// Sets default values for this actor's properties
