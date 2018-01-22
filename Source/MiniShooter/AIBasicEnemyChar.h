@@ -51,4 +51,10 @@ public:
 	UFUNCTION()
 		void Fire();
 
+	UFUNCTION()
+		void Explode();
+
+	UFUNCTION()
+		void FireAll();
+
 };

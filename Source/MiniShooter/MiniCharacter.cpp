@@ -36,7 +36,6 @@ void AMiniCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 void AMiniCharacter::GetRekt(float dmg)
 {
 	HitPoints -= dmg;
-
 }
 
 void AMiniCharacter::GetExp(float xp)

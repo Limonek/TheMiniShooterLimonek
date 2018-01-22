@@ -34,7 +34,7 @@ void ABasicBullet::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalIm
 			AAIBasicEnemyChar* Pawn(Cast<AAIBasicEnemyChar>(OtherActor));
 			if (Pawn)
 			{
-				float DamageAmount = 600.0f;
+				float DamageAmount = 5.0f;
 				const FDamageEvent DamageEvent;
 				AController* EventInstigator = nullptr;
 				AActor* DamageCauser = this;
