@@ -21,6 +21,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	TSubclassOf<class AAIBullet> ProjectileClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	TSubclassOf<class AActor> MissleClass;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
 	float HitPoints;
 

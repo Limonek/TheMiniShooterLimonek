@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Core.h"
 #include "GameFramework/Actor.h"
 #include "AIHomeingMissle.generated.h"
 
@@ -17,7 +17,7 @@ class MINISHOOTER_API AAIHomeingMissle : public AActor
 
 	// Projectile movement component.
 	UPROPERTY(VisibleAnywhere, Category = Movement)
-	class	UProjectileMovementComponent* ProjectileMovementComponent;
+	class	UMissleMovementComponent* ProjectileMovementComponent;
 
 public:
 	// Sets default values for this actor's properties
@@ -34,7 +34,7 @@ public:
 	/** Returns CollisionComp subobject **/
 	class USphereComponent* GetCollisionComp() const { return CollisionComponent; }
 	/** Returns ProjectileMovement subobject **/
-	class UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovementComponent; }
+	class UMissleMovementComponent* GetProjectileMovement() const { return ProjectileMovementComponent; }
 
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);

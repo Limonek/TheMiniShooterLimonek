@@ -86,7 +86,7 @@ void AAIBasicEnemyChar::Fire(int BulletType)
 				// spawn the projectile at the muzzle
 				switch (BulletType) {
 				case BASICBULLET:
-					World->SpawnActor<AAIBullet>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+					World->SpawnActor<AAIBullet>(MissleClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 					break;
 
 				}
@@ -123,23 +123,21 @@ void AAIBasicEnemyChar::FireAll()
 
 void AAIBasicEnemyChar::Explode()
 {
-	if (ProjectileClass != NULL)
-	{
+
 		UWorld* const World = GetWorld();
 		if (World != NULL)
 		{
-			const FRotator SpawnRotation = GetControlRotation();
-			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-			const FVector SpawnLocation = GetActorLocation() + FVector(10.2f, 48.4f, -10.6f);
-
-			//Set Spawn Collision Handling Override
-			FActorSpawnParameters ActorSpawnParams;
-			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
-			// spawn the projectile at the muzzle
-			World->SpawnActor<AAIBullet>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			AMiniCharacter *Enemy = Cast<AMiniCharacter>(World->GetFirstPlayerController()->GetCharacter());
+			if (Enemy != NULL) {
+				const FVector ActorLocation = GetActorLocation();
+				const FVector EnemyLocation = Enemy->GetActorLocation();
+				if ((ActorLocation - EnemyLocation).Size() < 1000)
+				{
+					Enemy->GetRekt(20);
+					Destroy();
+				}
+			}
 		}
-	}
 
 }
 

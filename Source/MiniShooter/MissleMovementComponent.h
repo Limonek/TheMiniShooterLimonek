@@ -14,7 +14,8 @@ class MINISHOOTER_API UMissleMovementComponent : public UPawnMovementComponent
 {
 	GENERATED_BODY()
 	
-	
+public:
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 	
 	
 };
