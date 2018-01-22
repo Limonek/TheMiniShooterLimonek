@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "AIBasicEnemyChar.h"
+#include "AIBullet.h"
 #include "MiniShooter.h"
 
 
@@ -36,5 +37,30 @@ void AAIBasicEnemyChar::SetupPlayerInputComponent(class UInputComponent* InputCo
 void AAIBasicEnemyChar::GetRekt(float dmg)
 {
 	Destroy();
+}
+
+void AAIBasicEnemyChar::Fire()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("fire"));
+	if (ProjectileClass != NULL)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("projectaile"));
+		UWorld* const World = GetWorld();
+		if (World != NULL)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("world"));
+				const FRotator SpawnRotation = GetControlRotation();
+				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+				const FVector SpawnLocation =  GetActorLocation() + FVector(0.2f, 48.4f, -10.6f);
+
+				//Set Spawn Collision Handling Override
+				FActorSpawnParameters ActorSpawnParams;
+				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+				// spawn the projectile at the muzzle
+				World->SpawnActor<AAIBullet>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+		}
+	}
+
 }
 

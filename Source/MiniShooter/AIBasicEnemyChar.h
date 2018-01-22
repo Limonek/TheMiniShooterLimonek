@@ -17,6 +17,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = Behavior)
 		class UBehaviorTree *BotBehavior;
 
+	/** Projectile class to spawn */
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	TSubclassOf<class AAIBullet> ProjectileClass;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -28,5 +32,8 @@ public:
 
 	UFUNCTION()
 		void GetRekt(float dmg);
+
+	UFUNCTION()
+		void Fire();
 
 };
