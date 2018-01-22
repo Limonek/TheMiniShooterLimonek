@@ -49,7 +49,9 @@ void AMiniCharacter::Tick(float DeltaTime)
 void AMiniCharacter::GetRekt(float dmg)
 {
 	HitPoints -= dmg;
-
+	if (HitPoints <= 0) {
+		//zabijanie gracza
+	}
 }
 
 void AMiniCharacter::AddExp(float xp)

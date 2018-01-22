@@ -19,7 +19,7 @@ EBTNodeResult::Type UBTTask_MoveToPlayer::ExecuteTask(UBehaviorTreeComponent& Ow
 	{
 		CharPc->MoveToActor(Enemy, 5.f, true, true, true, 0, true);
 		AAIBasicEnemyChar *Bot =  Cast<AAIBasicEnemyChar>(CharPc->GetCharacter());
-		Bot->Fire();
+		Bot->FireBasic();
 		return EBTNodeResult::Succeeded;
 	}
 	else

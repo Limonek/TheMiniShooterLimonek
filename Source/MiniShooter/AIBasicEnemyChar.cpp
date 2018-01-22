@@ -4,7 +4,7 @@
 #include "MiniCharacter.h"
 #include "MiniShooter.h"
 
-
+#define BASICBULLET 1
 
 // Sets default values
 AAIBasicEnemyChar::AAIBasicEnemyChar()
@@ -52,23 +52,92 @@ void AAIBasicEnemyChar::GetRekt(float dmg)
 	}
 }
 
-void AAIBasicEnemyChar::Fire()
+void AAIBasicEnemyChar::FireBasic()
+{
+	Fire(BASICBULLET);
+}
+
+void AAIBasicEnemyChar::Fire(int BulletType)
 {
 	if (ProjectileClass != NULL)
 	{
 		UWorld* const World = GetWorld();
 		if (World != NULL)
 		{
-				const FRotator SpawnRotation = GetControlRotation();
-				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-				const FVector SpawnLocation =  GetActorLocation() + FVector(0.2f, 48.4f, -10.6f);
+			const FRotator SpawnRotation = GetControlRotation();
+			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+			const FVector ActorLocation = GetActorLocation();// +FVector(0.2f, 10.4f, -10.6f);
+
+			AMiniCharacter *Enemy = Cast<AMiniCharacter>(World->GetFirstPlayerController()->GetCharacter());
+			if (Enemy != NULL) {
+				const FVector EnemyLocation = Enemy->GetActorLocation();
+
+				FVector Direction = EnemyLocation - GetActorLocation();
+				FRotator NewControlRotation = Direction.Rotation();
+				const FVector SpawnLocation = ActorLocation + SpawnRotation.RotateVector(FVector(30.2f, 10.4f, 30.6f));
+				NewControlRotation.Yaw = FRotator::ClampAxis(NewControlRotation.Yaw);
+				FaceRotation(NewControlRotation, 0.2f);
+
 
 				//Set Spawn Collision Handling Override
 				FActorSpawnParameters ActorSpawnParams;
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
 				// spawn the projectile at the muzzle
-				World->SpawnActor<AAIBullet>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+				switch (BulletType) {
+				case BASICBULLET:
+					World->SpawnActor<AAIBullet>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+					break;
+
+				}
+
+
+			}
+		}
+	}
+
+}
+
+void AAIBasicEnemyChar::FireAll()
+{
+	if (ProjectileClass != NULL)
+	{
+		UWorld* const World = GetWorld();
+		if (World != NULL)
+		{
+			const FRotator SpawnRotation = GetControlRotation();
+			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+			const FVector SpawnLocation = GetActorLocation() + FVector(0.2f, 10.4f, -10.6f);
+
+			//Set Spawn Collision Handling Override
+			FActorSpawnParameters ActorSpawnParams;
+			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+			// spawn the projectile at the muzzle
+			World->SpawnActor<AAIBullet>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+		}
+	}
+
+}
+
+
+void AAIBasicEnemyChar::Explode()
+{
+	if (ProjectileClass != NULL)
+	{
+		UWorld* const World = GetWorld();
+		if (World != NULL)
+		{
+			const FRotator SpawnRotation = GetControlRotation();
+			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+			const FVector SpawnLocation = GetActorLocation() + FVector(10.2f, 48.4f, -10.6f);
+
+			//Set Spawn Collision Handling Override
+			FActorSpawnParameters ActorSpawnParams;
+			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+			// spawn the projectile at the muzzle
+			World->SpawnActor<AAIBullet>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 		}
 	}
 
