@@ -10,7 +10,7 @@
 *
 */
 UCLASS()
-class MINISHOOTER_API AMnShtrFirstPersonCharacter : public AFP_FirstPersonCharacter
+class MINISHOOTER_API AMnShtrFirstPersonCharacter : public ACharacter
 {
 	GENERATED_BODY()
 public:
