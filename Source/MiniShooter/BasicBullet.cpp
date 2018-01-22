@@ -39,7 +39,6 @@ void ABasicBullet::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalIm
 				AController* EventInstigator = nullptr;
 				AActor* DamageCauser = this;
 				Pawn->GetRekt(DamageAmount);
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Some debug message!"));
 			}
 		}
 	}

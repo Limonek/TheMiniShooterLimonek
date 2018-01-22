@@ -15,7 +15,6 @@ AMnShtrFirstPersonCharacter::AMnShtrFirstPersonCharacter() :Super()
 	MaxJumpCount = 3;
 	CurrentJumpCount = 0;
 }
-
 void AMnShtrFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -53,7 +52,6 @@ void AMnShtrFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponen
 		PlayerInputComponent->BindAction("Run", IE_Released, this, &AMnShtrFirstPersonCharacter::StopRun);
 	}
 }
-
 void AMnShtrFirstPersonCharacter::ShowPauseMenu()
 {
 	AMnShtrGameModeBase* gameMode = Cast<AMnShtrGameModeBase>(GetWorld()->GetAuthGameMode());

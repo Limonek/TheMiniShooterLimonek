@@ -17,6 +17,25 @@ public:
 	UPROPERTY(EditAnywhere, Category = Behavior)
 		class UBehaviorTree *BotBehavior;
 
+	/** Projectile class to spawn */
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	TSubclassOf<class AAIBullet> ProjectileClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
+	float HitPoints;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
+	float Experiance;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
+	float DmgMultiplier;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
+	float Energy;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
+	float MaxEnergy;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -28,5 +47,8 @@ public:
 
 	UFUNCTION()
 		void GetRekt(float dmg);
+
+	UFUNCTION()
+		void Fire();
 
 };
