@@ -25,7 +25,7 @@ public:
 	UPROPERTY()
 		UUserWidget* CurrentWidget=nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Maciek")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MnShtr")
 		TSubclassOf<UUserWidget> StartingWidget;
 
 	UFUNCTION()

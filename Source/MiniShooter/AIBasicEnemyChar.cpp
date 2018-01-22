@@ -46,8 +46,8 @@ void AAIBasicEnemyChar::GetRekt(float dmg)
 	HitPoints -= dmg;
 	if (HitPoints <= 0) {
 		AMiniCharacter *Enemy = Cast<AMiniCharacter>(GetWorld()->GetFirstPlayerController()->GetCharacter());
-		if (Enemy)
-			Enemy->GetExp(Experiance);
+		if(Enemy)
+			Enemy->AddExp(Experiance);
 		Destroy();
 	}
 }

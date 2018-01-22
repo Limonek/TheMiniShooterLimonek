@@ -10,10 +10,12 @@
 *
 */
 UCLASS()
-class MINISHOOTER_API AMnShtrFirstPersonCharacter : public AFP_FirstPersonCharacter
+class MINISHOOTER_API AMnShtrFirstPersonCharacter : public ACharacter
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY()
+	int32 Exp;
 	FTimerHandle DeadTimerHandle;
 	UFUNCTION(BlueprintCallable, Category=MnShtr)
 	void CountdownFinished();
@@ -45,10 +47,10 @@ protected:
 	// End of APawn interface
 private:
 	void ShowPauseMenu();
-	void LoadGame();
+	//void LoadGame();
 	void StartRun();
 	void StopRun();
-	void SaveGame();
+	//void SaveGame();
 	float WalkSpeed = 600;
 	float RunSpeed = 1000;
 };

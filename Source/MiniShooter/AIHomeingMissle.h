@@ -36,7 +36,7 @@ public:
 	/** Returns ProjectileMovement subobject **/
 	class UMissleMovementComponent* GetProjectileMovement() const { return ProjectileMovementComponent; }
 
-	UFUNCTION()
-		void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	//UFUNCTION()
+	//	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 };

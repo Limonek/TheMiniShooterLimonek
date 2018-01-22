@@ -7,7 +7,6 @@
 #include "ScrollBox.h"
 #include "Blueprint/UserWidget.h"
 #include "LoadMenuCPP.generated.h"
-
 /**
  *
  */
@@ -16,17 +15,12 @@ class MINISHOOTER_API ULoadMenuCPP : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	ULoadMenuCPP(const FObjectInitializer& ObjectInitializer);
-
-	UFUNCTION(BlueprintCallable, Category = "Maciek's Category")
+	UFUNCTION(BlueprintCallable, Category = "MnShtr")
 		void UpdateSaveGameList();
 
-	UPROPERTY(BlueprintReadWrite, Category = "Maciek's Category")
+	UPROPERTY(BlueprintReadWrite, Category = "MnShtr")
 		UScrollBox* SavedGamesContainer;
 
-	UFUNCTION(BlueprintCallable, Category = "Maciek's Category")
+	UFUNCTION(BlueprintCallable, Category = "MnShtr")
 		TArray<FString> ListSavedGameSlots();
-
-	UFUNCTION(BlueprintCallable, Category = "Maciek's Category")
-		void OnClick();
 };

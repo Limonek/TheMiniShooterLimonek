@@ -4,12 +4,12 @@
 
 UMnShtrSaveGame::UMnShtrSaveGame()
 {
-	SaveSlotName = TEXT("TestSaveSlot");
-	UserIndex = 0;
+	/*SaveSlotName = TEXT("TestSaveSlot");
+	UserIndex = 0;*/
 }
 
-UMnShtrSaveGame::UMnShtrSaveGame(FText name)
-{
-	SaveSlotName = name.ToString();
-	UserIndex = 0;
-}
+//UMnShtrSaveGame::UMnShtrSaveGame(FText name)
+//{
+//	//SaveSlotName = name.ToString();
+//	//UserIndex = 0;
+//}

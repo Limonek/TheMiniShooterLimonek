@@ -44,8 +44,6 @@ void AMnShtrGameModeBase::BeginPlay()
 			playerController->SetInputMode(FInputModeGameOnly());
 			playerController->bShowMouseCursor = false;
 			playerController->SetPause(false);
-			player->GetController()->SetControlRotation(mnShtrGameInstance->rotation);
-			player->GetController()->GetPawn()->SetActorLocation(mnShtrGameInstance->location);
 		}
 	}
 }

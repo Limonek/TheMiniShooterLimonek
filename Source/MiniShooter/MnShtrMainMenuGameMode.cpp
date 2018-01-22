@@ -1,22 +1,29 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "MnShtrMainMenuGameMode.h"
+#include "MnShtrGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 
 void AMnShtrMainMenuGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("MnShtr MAIN MENU GAME MODE.CPP"));
 	StartShowingStartingWidget();
 }
 
 void AMnShtrMainMenuGameMode::PlayButtonClick()
 {
-	ChangeMenuWidget(nullptr);
-	UGameplayStatics::OpenLevel(GetWorld(), "FirstPersonExampleMap2");
-	APlayerController *playerController = GetWorld()->GetFirstPlayerController();
-	playerController->SetInputMode(FInputModeGameOnly());
-	playerController->bShowMouseCursor = false;
-	playerController->SetPause(false);
+	UWorld* world = GetWorld();
+	UMnShtrGameInstance* gameInstance = Cast<UMnShtrGameInstance>(world->GetGameInstance());
+	if (gameInstance->mustRead)
+	{
+		UGameplayStatics::OpenLevel(world, gameInstance->Level);
+	}
+	else
+	{
+		if (GiveNameWidgetClass)
+		{
+			ChangeMenuWidget(GiveNameWidgetClass);
+		}
+	}
 }
 
 void AMnShtrMainMenuGameMode::LoadButtonClick()
@@ -45,10 +52,36 @@ void AMnShtrMainMenuGameMode::QuitButtonClick()
 	GetWorld()->GetFirstLocalPlayerFromController()->ConsoleCommand("quit");
 }
 
-void AMnShtrMainMenuGameMode::BackButtonClick()
+void AMnShtrMainMenuGameMode::ShowMainBackButtonClick()
 {
 	if (MainMenuClass)
 	{
 		ChangeMenuWidget(MainMenuClass);
 	}
+}
+
+void AMnShtrMainMenuGameMode::ShowOptionsBackButtonClick()
+{
+	if (MainMenuClass)
+	{
+		ChangeMenuWidget(OptionsMenuClass);
+	}
+}
+
+void AMnShtrMainMenuGameMode::ShowVideoSettingsButtonClick()
+{
+	if (MainMenuClass)
+	{
+		ChangeMenuWidget(VideoMenuClass);
+	}
+}
+
+void AMnShtrMainMenuGameMode::ShowYourProfileButtonClick()
+{
+	ChangeMenuWidget(ProfileWidgetClass);
+}
+
+void AMnShtrMainMenuGameMode::SaveButtonClick()
+{
+	ChangeMenuWidget(SaveMenuClass);
 }

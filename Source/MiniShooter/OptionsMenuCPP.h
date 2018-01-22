@@ -29,10 +29,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category="MnShtr")
 	void ReverseMouse(bool reverse);
 
-	UPROPERTY(BlueprintReadWrite, Category = "Maciek's Category")
+	UPROPERTY(BlueprintReadWrite, Category = "MnShtr")
 		UScrollBox* ButtonsBoxCPP;
 
-	UFUNCTION(BlueprintCallable, Category = "Maciek's Category")
+	UFUNCTION(BlueprintCallable, Category = "MnShtr")
 		void AddBindingsButtons();
 
 	//Action Bindings Button
