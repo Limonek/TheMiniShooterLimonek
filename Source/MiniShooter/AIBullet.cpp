@@ -2,6 +2,7 @@
 
 #include "AIBullet.h"
 #include "MiniCharacter.h"
+#include "AIBasicEnemyChar.h"
 #include "Runtime/Engine/Classes/Components/SphereComponent.h"
 #include "Runtime/Engine/Classes/GameFramework/ProjectileMovementComponent.h"
 
@@ -31,6 +32,8 @@ AAIBullet::AAIBullet()
 	ProjectileMovementComponent->bShouldBounce = true;
 	ProjectileMovementComponent->Bounciness = 0.3f;
 	InitialLifeSpan = 3.0f;
+	Damage = 5.0f;
+	Explode = false;
 }
 
 // Called when the game starts or when spawned
@@ -56,12 +59,18 @@ void AAIBullet::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimiti
 			AMiniCharacter* Pawn(Cast<AMiniCharacter>(OtherActor));
 			if (Pawn)
 			{
-				float DamageAmount = 1.0f;
 				const FDamageEvent DamageEvent;
 				AController* EventInstigator = nullptr;
 				AActor* DamageCauser = this;
-				Pawn->GetRekt(DamageAmount);
+				Pawn->GetRekt(Damage);
+				Shooter->AssignDamageDelt(Damage);
 			}
 		}
 	}
+}
+
+void AAIBullet::SetShooter(AAIBasicEnemyChar *shooter, float dmgMultiplier, bool asd) {
+	Shooter = shooter;
+	Damage = dmgMultiplier;
+	Explode = asd;
 }

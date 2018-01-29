@@ -9,13 +9,18 @@
 #include "AIBasicEnemyChar.h"
 #include "AIBasicEnemyCtr.h"
 
+#define FIRE 1
+#define GRANADE 2
+#define HEAL 3
+#define EXPLODE 4
+
 EBTNodeResult::Type UBTTask_MoveToPlayer::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	AAIBasicEnemyCtr *CharPc = Cast<AAIBasicEnemyCtr>(OwnerComp.GetAIOwner());
 
 	ACharacter *Enemy = Cast<ACharacter>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPc->EnemyKeyID));
 
-	if (Enemy)
+	if (Enemy && OwnerComp.GetBlackboardComponent()->GetValueAsInt("Strategy")==FIRE)
 	{
 		CharPc->MoveToActor(Enemy, 5.f, true, true, true, 0, true);
 		AAIBasicEnemyChar *Bot =  Cast<AAIBasicEnemyChar>(CharPc->GetCharacter());

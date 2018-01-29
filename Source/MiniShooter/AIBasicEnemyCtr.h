@@ -3,7 +3,7 @@
 #pragma once
 
 #include "AIController.h"
-
+#include "StrategyModel.h"
 #include "AIBasicEnemyCtr.generated.h"
 
 /**
@@ -27,4 +27,20 @@ public:
 	virtual void Possess(APawn *InPawn) override;
 
 	uint8 EnemyKeyID;
+
+	UFUNCTION()
+		void SaveData(float Dmg);
+
+	UFUNCTION()
+		int EvaluateData();
+
+	UFUNCTION()
+		void LoadData();
+
+private:
+	AAIBasicEnemyChar *Bot;
+
+	StrategyModel Strategy;
+
+	int GetStrategy(float dist, float energy, float hp);
 };

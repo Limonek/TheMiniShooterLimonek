@@ -23,11 +23,14 @@ public:
 	// Sets default values for this actor's properties
 	AAIBullet();
 
+	AAIBasicEnemyChar *Shooter;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -36,8 +39,17 @@ public:
 	/** Returns ProjectileMovement subobject **/
 	class UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovementComponent; }
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
+		float Damage;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
+		bool Explode;
+
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	UFUNCTION()
+	void SetShooter(AAIBasicEnemyChar *Shooter, float DmgMultiplier, bool asd);
 
 	
 };

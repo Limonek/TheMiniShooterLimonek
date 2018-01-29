@@ -39,6 +39,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
 	float MaxEnergy;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stats)
+	float DamageDelt;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -58,7 +61,18 @@ public:
 		void Explode();
 
 	UFUNCTION()
-		void FireAll();
+		void FireGranade();
+
+	UFUNCTION()
+		void AssignDamageDelt(float dmg);
+
+	UFUNCTION()
+		void Heal();
+
+	float GetEnergy();
+
+	float GetHealth();
+
 
 private:
 

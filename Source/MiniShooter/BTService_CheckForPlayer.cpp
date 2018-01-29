@@ -26,6 +26,7 @@ void UBTService_CheckForPlayer::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 		if (Enemy)
 		{
 			OwnerComp.GetBlackboardComponent()->SetValue<UBlackboardKeyType_Object>(EnemyPC->EnemyKeyID, Enemy);
+			OwnerComp.GetBlackboardComponent()->SetValueAsInt("Strategy", EnemyPC->EvaluateData());
 		}
 	}
 }

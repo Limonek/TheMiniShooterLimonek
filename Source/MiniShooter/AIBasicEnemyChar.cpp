@@ -2,9 +2,11 @@
 #include "AIBasicEnemyChar.h"
 #include "AIBullet.h"
 #include "MiniCharacter.h"
+#include "AIBasicEnemyCtr.h"
 #include "MiniShooter.h"
 
 #define BASICBULLET 1
+#define GRANADE 2
 
 // Sets default values
 AAIBasicEnemyChar::AAIBasicEnemyChar()
@@ -16,6 +18,7 @@ AAIBasicEnemyChar::AAIBasicEnemyChar()
 	DmgMultiplier = 1.0f;
 	Energy = 100.0f;
 	MaxEnergy = Energy;
+	DamageDelt = 0;
 }
 
 // Called when the game starts or when spawned
@@ -48,12 +51,14 @@ void AAIBasicEnemyChar::GetRekt(float dmg)
 		AMiniCharacter *Enemy = Cast<AMiniCharacter>(GetWorld()->GetFirstPlayerController()->GetCharacter());
 		if(Enemy)
 			Enemy->AddExp(Experiance);
+		Cast<AAIBasicEnemyCtr>(GetController())->SaveData(DamageDelt);
 		Destroy();
 	}
 }
 
 void AAIBasicEnemyChar::FireBasic()
 {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Black, TEXT("Fire"));
 	Fire(BASICBULLET);
 }
 
@@ -82,13 +87,14 @@ void AAIBasicEnemyChar::Fire(int BulletType)
 				//Set Spawn Collision Handling Override
 				FActorSpawnParameters ActorSpawnParams;
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
-				// spawn the projectile at the muzzle
+				AAIBullet *Bullet = World->SpawnActor<AAIBullet>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 				switch (BulletType) {
 				case BASICBULLET:
-					World->SpawnActor<AAIBullet>(MissleClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+					Bullet->SetShooter(this, 5, false);
 					break;
-
+				case GRANADE:
+					Bullet->SetShooter(this, 20, true);
+					break;
 				}
 
 
@@ -98,32 +104,19 @@ void AAIBasicEnemyChar::Fire(int BulletType)
 
 }
 
-void AAIBasicEnemyChar::FireAll()
+void AAIBasicEnemyChar::FireGranade()
 {
-	if (ProjectileClass != NULL)
-	{
-		UWorld* const World = GetWorld();
-		if (World != NULL)
-		{
-			const FRotator SpawnRotation = GetControlRotation();
-			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-			const FVector SpawnLocation = GetActorLocation() + FVector(0.2f, 10.4f, -10.6f);
-
-			//Set Spawn Collision Handling Override
-			FActorSpawnParameters ActorSpawnParams;
-			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
-			// spawn the projectile at the muzzle
-			World->SpawnActor<AAIBullet>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-		}
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Black, TEXT("Granade"));
+	if (Energy > 20) {
+		Fire(GRANADE);
+		Energy -= 20;
 	}
-
 }
 
 
 void AAIBasicEnemyChar::Explode()
 {
-
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Black, TEXT("Explode"));
 		UWorld* const World = GetWorld();
 		if (World != NULL)
 		{
@@ -131,9 +124,10 @@ void AAIBasicEnemyChar::Explode()
 			if (Enemy != NULL) {
 				const FVector ActorLocation = GetActorLocation();
 				const FVector EnemyLocation = Enemy->GetActorLocation();
-				if ((ActorLocation - EnemyLocation).Size() < 1000)
+				if ((ActorLocation - EnemyLocation).Size() < 100)
 				{
 					Enemy->GetRekt(20);
+					AssignDamageDelt(20);
 					Destroy();
 				}
 			}
@@ -141,3 +135,26 @@ void AAIBasicEnemyChar::Explode()
 
 }
 
+void AAIBasicEnemyChar::AssignDamageDelt(float dmg)
+{
+	
+	DamageDelt += dmg;
+}
+
+void AAIBasicEnemyChar::Heal()
+{
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Black, TEXT("Heal"));
+	if (Energy > 2) {
+		HitPoints += 1;
+		Energy -= 2;
+	}
+}
+
+float AAIBasicEnemyChar::GetEnergy()
+{
+	return Energy;
+}
+float AAIBasicEnemyChar::GetHealth()
+{
+	return HitPoints;
+}

@@ -48,6 +48,7 @@ void AMiniCharacter::Tick(float DeltaTime)
 
 void AMiniCharacter::GetRekt(float dmg)
 {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Yellow, TEXT("BB const"));
 	HitPoints -= dmg;
 	if (HitPoints <= 0) {
 		//zabijanie gracza
