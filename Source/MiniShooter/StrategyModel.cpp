@@ -34,18 +34,18 @@ StrategyModel::StrategyModel(std::string line)
 	}
 
 	Move_Health = strtof((seglist[0]).c_str(), 0);
-	Move_Distance = strtof((seglist[2]).c_str(), 0);
-	Move_Energy = strtof((seglist[4]).c_str(), 0);
-	Heal_Health = strtof((seglist[6]).c_str(), 0);
-	Heal_Distance = strtof((seglist[8]).c_str(), 0);
-	Heal_Energy = strtof((seglist[10]).c_str(), 0);
-	Granade_Health = strtof((seglist[12]).c_str(), 0);
-	Granade_Distance = strtof((seglist[14]).c_str(), 0);
-	Granade_Energy = strtof((seglist[16]).c_str(), 0);
-	Explode_Health = strtof((seglist[18]).c_str(), 0);
-	Explode_Distance = strtof((seglist[20]).c_str(), 0);
-	Explode_Energy = strtof((seglist[22]).c_str(), 0);
-	Dmg = strtof((seglist[24]).c_str(), 0);
+	Move_Distance = strtof((seglist[1]).c_str(), 0);
+	Move_Energy = strtof((seglist[2]).c_str(), 0);
+	Heal_Health = strtof((seglist[3]).c_str(), 0);
+	Heal_Distance = strtof((seglist[4]).c_str(), 0);
+	Heal_Energy = strtof((seglist[5]).c_str(), 0);
+	Granade_Health = strtof((seglist[6]).c_str(), 0);
+	Granade_Distance = strtof((seglist[7]).c_str(), 0);
+	Granade_Energy = strtof((seglist[8]).c_str(), 0);
+	Explode_Health = strtof((seglist[9]).c_str(), 0);
+	Explode_Distance = strtof((seglist[10]).c_str(), 0);
+	Explode_Energy = strtof((seglist[11]).c_str(), 0);
+	Dmg = strtof((seglist[12]).c_str(), 0);
 }
 
 StrategyModel::~StrategyModel()
