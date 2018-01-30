@@ -7,6 +7,7 @@
 #include <sstream>
 #include <fstream>  
 #include <algorithm>
+#include <random>
 #include "StrategyModel.h"
 #include "MiniCharacter.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -107,6 +108,135 @@ void AAIBasicEnemyCtr::LoadData()
 	for (int i = 0; i < Strategys.size(); i++)
 		if (Strategys[i].Dmg > MeanDmg)
 			ProperStrategys.push_back(Strategys[i]);
+	int r = (int)(((double)rand() / (RAND_MAX)) * (ProperStrategys.size()-1));
+	std::random_device rd;
+	std::mt19937 gen(rd());
+
+	//standard deviation
+	float Explode_Distance_StdDev = 0;
+	for (int n = 0; n < ProperStrategys.size(); n++)
+	{
+		Explode_Distance_StdDev += (ProperStrategys[n].Explode_Distance - ProperStrategys[r].Explode_Distance) * (ProperStrategys[n].Explode_Distance - ProperStrategys[r].Explode_Distance);
+	}
+	Explode_Distance_StdDev /= ProperStrategys.size();
+	Explode_Distance_StdDev = sqrt(Explode_Distance_StdDev);
+	std::normal_distribution<float> d(ProperStrategys[r].Explode_Distance, Explode_Distance_StdDev);
+	Strategy.Explode_Distance = d(gen);
+	if(Strategy.Explode_Distance > 1)
+		Strategy.Explode_Distance = 1 - Strategy.Explode_Distance;
+
+
+	float Explode_Energy_StdDev = 0;
+	for (int n = 0; n < ProperStrategys.size(); n++)
+	{
+		Explode_Energy_StdDev += (ProperStrategys[n].Explode_Energy - ProperStrategys[r].Explode_Energy) * (ProperStrategys[n].Explode_Energy - ProperStrategys[r].Explode_Energy);
+	}
+	Explode_Energy_StdDev /= ProperStrategys.size();
+	Explode_Energy_StdDev = sqrt(Explode_Energy_StdDev);
+	std::normal_distribution<float> d1(ProperStrategys[r].Explode_Energy, Explode_Energy_StdDev);
+	Strategy.Explode_Energy = d1(gen);
+	if (Strategy.Explode_Energy > 1)
+		Strategy.Explode_Energy = 1 - Strategy.Explode_Energy;
+
+
+
+	float Explode_Health_StdDev = 0;
+	for (int n = 0; n < ProperStrategys.size(); n++)
+	{
+		Explode_Health_StdDev += (ProperStrategys[n].Explode_Health - ProperStrategys[r].Explode_Health) * (ProperStrategys[n].Explode_Health - ProperStrategys[r].Explode_Health);
+	}
+	Explode_Health_StdDev /= ProperStrategys.size();
+	Explode_Health_StdDev = sqrt(Explode_Health_StdDev);
+	std::normal_distribution<float> d2(ProperStrategys[r].Explode_Health, Explode_Health_StdDev);
+	Strategy.Explode_Health = d2(gen);
+	if (Strategy.Explode_Health > 1)
+		Strategy.Explode_Health = 1 - Strategy.Explode_Health;
+
+
+
+	float Granade_Distance_StdDev = 0;
+	for (int n = 0; n < ProperStrategys.size(); n++)
+	{
+		Granade_Distance_StdDev += (ProperStrategys[n].Granade_Distance - ProperStrategys[r].Granade_Distance) * (ProperStrategys[n].Granade_Distance - ProperStrategys[r].Granade_Distance);
+	}
+	Granade_Distance_StdDev /= ProperStrategys.size();
+	Granade_Distance_StdDev = sqrt(Granade_Distance_StdDev);
+	std::normal_distribution<float> d3(ProperStrategys[r].Granade_Distance, Granade_Distance_StdDev);
+	Strategy.Granade_Distance = d3(gen);
+	if (Strategy.Granade_Distance > 1)
+		Strategy.Granade_Distance = 1 - Strategy.Granade_Distance;
+
+
+
+	float Granade_Energy_StdDev = 0;
+	for (int n = 0; n < ProperStrategys.size(); n++)
+	{
+		Granade_Energy_StdDev += (ProperStrategys[n].Granade_Energy - ProperStrategys[r].Granade_Energy) * (ProperStrategys[n].Granade_Energy - ProperStrategys[r].Granade_Energy);
+	}
+	Granade_Energy_StdDev /= ProperStrategys.size();
+	Granade_Energy_StdDev = sqrt(Granade_Energy_StdDev);
+	std::normal_distribution<float> d4(ProperStrategys[r].Granade_Energy, Granade_Energy_StdDev);
+	Strategy.Granade_Energy = d4(gen);
+	if (Strategy.Granade_Energy > 1)
+		Strategy.Granade_Energy = 1 - Strategy.Granade_Energy;
+
+
+
+	float Granade_Health_StdDev = 0;
+	for (int n = 0; n < ProperStrategys.size(); n++)
+	{
+		Granade_Health_StdDev += (ProperStrategys[n].Granade_Health - ProperStrategys[r].Granade_Health) * (ProperStrategys[n].Granade_Health - ProperStrategys[r].Granade_Health);
+	}
+	Granade_Health_StdDev /= ProperStrategys.size();
+	Granade_Health_StdDev = sqrt(Granade_Health_StdDev);
+	std::normal_distribution<float> d5(ProperStrategys[r].Granade_Health, Granade_Health_StdDev);
+	Strategy.Granade_Health = d5(gen);
+	if (Strategy.Granade_Health > 1)
+		Strategy.Granade_Health = 1 - Strategy.Granade_Health;
+
+
+
+	float Heal_Distance_StdDev = 0;
+	for (int n = 0; n < ProperStrategys.size(); n++)
+	{
+		Heal_Distance_StdDev += (ProperStrategys[n].Heal_Distance - ProperStrategys[r].Heal_Distance) * (ProperStrategys[n].Heal_Distance - ProperStrategys[r].Heal_Distance);
+	}
+	Heal_Distance_StdDev /= ProperStrategys.size();
+	Heal_Distance_StdDev = sqrt(Heal_Distance_StdDev);
+	std::normal_distribution<float> d6(ProperStrategys[r].Heal_Distance, Heal_Distance_StdDev);
+	Strategy.Heal_Distance = d6(gen);
+	if (Strategy.Heal_Distance > 1)
+		Strategy.Heal_Distance = 1 - Strategy.Heal_Distance;
+
+
+
+	float Heal_Energy_StdDev = 0;
+	for (int n = 0; n < ProperStrategys.size(); n++)
+	{
+		Heal_Energy_StdDev += (ProperStrategys[n].Heal_Energy - ProperStrategys[r].Heal_Energy) * (ProperStrategys[n].Heal_Energy - ProperStrategys[r].Heal_Energy);
+	}
+	Heal_Energy_StdDev /= ProperStrategys.size();
+	Heal_Energy_StdDev = sqrt(Heal_Energy_StdDev);
+	std::normal_distribution<float> d7(ProperStrategys[r].Heal_Energy, Heal_Energy_StdDev);
+	Strategy.Heal_Energy = d7(gen);
+	if (Strategy.Heal_Energy > 1)
+		Strategy.Heal_Energy = 1 - Strategy.Heal_Energy;
+
+
+
+	float Heal_Health_StdDev = 0;
+	for (int n = 0; n < ProperStrategys.size(); n++)
+	{
+		Heal_Health_StdDev += (ProperStrategys[n].Heal_Health - ProperStrategys[r].Heal_Health) * (ProperStrategys[n].Heal_Health - ProperStrategys[r].Heal_Health);
+	}
+	Heal_Health_StdDev /= ProperStrategys.size();
+	Heal_Health_StdDev = sqrt(Heal_Health_StdDev);
+	std::normal_distribution<float> d8(ProperStrategys[r].Heal_Health, Heal_Health_StdDev);
+	Strategy.Heal_Health = d8(gen);
+	if (Strategy.Heal_Health > 1)
+		Strategy.Heal_Health = 1 - Strategy.Heal_Health;
+
+
 
 }
 

@@ -90,9 +90,11 @@ void AAIBasicEnemyChar::Fire(int BulletType)
 				AAIBullet *Bullet = World->SpawnActor<AAIBullet>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 				switch (BulletType) {
 				case BASICBULLET:
+					if(Bullet)
 					Bullet->SetShooter(this, 5, false);
 					break;
 				case GRANADE:
+					if (Bullet)
 					Bullet->SetShooter(this, 20, true);
 					break;
 				}
