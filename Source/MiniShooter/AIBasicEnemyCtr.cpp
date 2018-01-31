@@ -88,7 +88,7 @@ int AAIBasicEnemyCtr::EvaluateData()
 
 void AAIBasicEnemyCtr::LoadData()
 {
-	std::ifstream infile("X:/botFile.txt");
+	std::ifstream infile("C:/botFile.txt");
 	std::vector<StrategyModel> Strategys;
 	std::vector<StrategyModel> ProperStrategys;
 	std::string line;
